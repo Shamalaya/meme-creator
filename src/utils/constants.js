@@ -8,8 +8,8 @@ export const links = [
   },
   {
     id: 2,
-    text: 'about',
-    url: '/about',
+    text: 'New Meme',
+    url: '/new',
   },
   {
     id: 3,

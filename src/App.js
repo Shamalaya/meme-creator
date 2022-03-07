@@ -1,10 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 import { Footer, Navbar, Sidebar } from './components'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Home, SingleMeme } from './pages';
+import { Home, SingleMeme, FormMeme, Login } from './pages';
+import TemplateSelect from './components/TemplateSelect';
 
 
 function App() {
@@ -15,7 +17,11 @@ function App() {
       <Routes>
         <Route exact path='/' element={<Home />} />
 
-        <Route exact path='/new'>
+        <Route exact path='/new' element={<TemplateSelect />}>
+        </Route>
+        <Route exact path='/login' element={<Login />}>
+        </Route>
+        <Route exact path='/new/:id' element={<FormMeme />}>
         </Route>
         <Route exact path='/memes/:id' element={<SingleMeme />} />
         <Route path="/copy/:id/">

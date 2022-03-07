@@ -9,7 +9,8 @@ const Footer = () => {
   </Wrapper>
 }
 const Wrapper = styled.footer`
-      height: 5rem;
+    margin-top: auto;
+    height: 5rem;
       display: flex;
       flex-direction: column;
       justify-content: center;

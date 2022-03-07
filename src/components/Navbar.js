@@ -1,91 +1,73 @@
 import React from 'react'
 import { useMemesContext } from "../context/memes_context";
+import { useUserContext } from "../context/user_context";
 import styled from "styled-components";
 import { FaBars } from "react-icons/fa";
 import { links } from "../utils/constants";
 import { Link } from "react-router-dom";
+import logo from "../assets/logo.png";
 
 
 const Navbar = () => {
- const { openSidebar } = useMemesContext();
+  const { openSidebar } = useMemesContext();
+  const { myUser, handleLogout } = useUserContext();
 
- return (
-  <NavContainer>
-   <div className="nav-center">
-    <div className="nav-header">
-     <Link to="/">
-      link
-     </Link>
-     <button type="button" className="nav-toggle" onClick={openSidebar}>
-      <FaBars />
+  return (
+    <NavContainer>
+      <button type="button" className="nav-toggle" onClick={openSidebar}>
+        <FaBars />
+      </button>
+      <div className="nav-header">
+        <Link to="/">
+          meme creator
 
-     </button>
-    </div>
-    <ul className="nav-links">
-     {links.map((link) => {
-      const { id, text, url } = link;
-      return (
-       <li key={id}>
-        <Link to={url}> {text}</Link>
-       </li>
-      );
-     })}
-    </ul>
-   </div>
-  </NavContainer>
- );
+        </Link>
+
+      </div>
+      <ul className="nav-links">
+        {links.map((link) => {
+          const { id, text, url } = link;
+          return (
+            <li key={id}>
+              <Link to={url}> {text}</Link>
+            </li>
+          );
+        })}
+      </ul>
+      <div className="nav-right">
+
+        {myUser ? (<>
+          <span>{` ${myUser?.name}`}</span>
+          <button type="button" className='auth-btn' onClick={() => handleLogout()}>
+            Logout
+          </button></>
+        ) : (
+          <Link to='/login'><button type="button" className='auth-btn'>
+            Login</button>
+          </Link>
+        )}</div>
+    </NavContainer >
+  );
 }
 
 const NavContainer = styled.nav`
-  height: 5rem;
+  height: 10vh;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
+  border-bottom: 1px;
 
-  .nav-center {
-    width: 90vw;
-    margin: 0 auto;
-    max-width: var(--max-width);
-  }
+
+
+
   .nav-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    img {
-      width: 175px;
-      margin-left: -15px;
-    }
+    margin-left: 2rem;
+
   }
-  .nav-toggle {
-    background: transparent;
-    border: transparent;
-    color: var(--clr-primary-5);
-    cursor: pointer;
-    svg {
-      font-size: 2rem;
-    }
-  }
+
   .nav-links {
-    display: none;
-  }
-  .cart-btn-wrapper {
-    display: none;
-  }
-  @media (min-width: 992px) {
-    .nav-toggle {
-      display: none;
-    }
-    .nav-center {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      align-items: center;
-    }
-    .nav-links {
-      display: flex;
-      justify-content: center;
-      li {
-        margin: 0 0.5rem;
-      }
+    display: flex;
+    padding: 1rem 1rem;
       a {
         color: var(--clr-grey-3);
         font-size: 1rem;
@@ -96,11 +78,57 @@ const NavContainer = styled.nav`
           border-bottom: 2px solid var(--clr-primary-7);
         }
       }
-    }
-    .cart-btn-wrapper {
-      display: grid;
-    }
   }
-`;
+  .nav-right {
+    margin-right: 2rem;
+        }
+
+  .nav-toggle {
+    display: none;
+
+  }
+
+
+      .auth-btn {
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border-color: transparent;
+    font-size: 1.0rem;
+    margin-right:1.0rem ;
+    margin-left:1.0rem ;
+
+    cursor: pointer;
+    color: var(--clr-grey-1);
+    letter-spacing: var(--spacing);
+  }
+
+  @media (max-width: 992px) {
+
+    .nav-toggle {
+    background: transparent;
+    border: transparent;
+    color: var(--clr-primary-5);
+    cursor: pointer;
+    display:block ;
+    svg {
+      font-size: 2rem;
+    }
+    margin-left: 1rem;
+ }
+  .nav-header {
+    margin-left: 0;
+
+  }
+
+    .nav-links {
+      display: none;
+    }
+    .auth-btn {
+      display: none;
+    }
+
+  }
+`
 
 export default Navbar;

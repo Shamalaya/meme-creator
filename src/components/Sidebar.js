@@ -4,8 +4,11 @@ import { useMemesContext } from '../context/memes_context'
 import { FaTimes } from 'react-icons/fa'
 import { links } from '../utils/constants'
 import styled from 'styled-components'
+import { useUserContext } from "../context/user_context";
+
 
 const Sidebar = () => {
+  const { myUser, handleLogout } = useUserContext();
   const { isSidebarOpen, closeSidebar } = useMemesContext();
   return <SidebarContainer>
     <aside className={`${isSidebarOpen ? 'sidebar show-sidebar' : 'sidebar'}`}>
@@ -22,7 +25,15 @@ const Sidebar = () => {
             </li>
           )
         })}
-
+        <li className="nav-right">
+          {myUser ? (<>
+            <button type="button" className='btn' onClick={() => handleLogout()}>
+              Logout</button></>
+          ) : (
+            <Link to='/login' onClick={closeSidebar}><button type="button" className='btn'>
+              Login</button>
+            </Link>
+          )}</li>
       </ul>
     </aside>
   </SidebarContainer>
@@ -45,6 +56,7 @@ const SidebarContainer = styled.div`
     cursor: pointer;
     color: var(--clr-red-dark);
     margin-top: 0.2rem;
+    margin-left: -0.5rem;
   }
   .close-btn:hover {
     color: var(--clr-red-light);
@@ -89,9 +101,7 @@ const SidebarContainer = styled.div`
     transform: translate(0);
     z-index: 999;
   }
-  .cart-btn-wrapper {
-    margin: 2rem auto;
-  }
+
   @media screen and (min-width: 992px) {
     .sidebar {
       display: none;

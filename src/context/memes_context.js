@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useReducer }
   from 'react'
-import reducer from '../reducers/memes_reducer'
+import { useUserContext } from '../context/user_context'
 
+import reducer from '../reducers/memes_reducer'
+import API from '../API'
 import {
   SIDEBAR_OPEN,
   SIDEBAR_CLOSE,
@@ -10,7 +12,8 @@ import {
   GET_MEMES_ERROR,
   GET_TEMPLATES_BEGIN,
   GET_TEMPLATES_SUCCESS,
-  GET_TEMPLATES_ERROR
+  GET_TEMPLATES_ERROR,
+
 } from '../actions'
 
 const initialState = {
@@ -21,13 +24,15 @@ const initialState = {
   templates_error: false,
   memes: [],
   templates: [],
+  dirty: false,
 }
+
 
 const MemesContext = React.createContext()
 
 export const MemesProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
-
+  const { isAuthenticated } = useUserContext();
   const openSidebar = () => {
     dispatch({ type: SIDEBAR_OPEN })
   }
@@ -39,55 +44,57 @@ export const MemesProvider = ({ children }) => {
     // call GET /api/memes
     dispatch({ type: GET_MEMES_BEGIN })
 
-    try {
-      const response = await fetch('/api/memes');
-      const memesJson = await response.json();
+    API.getAllMemes()
+      .then(memes => {
+        dispatch({ type: GET_MEMES_SUCCESS, payload: memes })
+      })
+      .catch(error => {
+        console.log(error.message);
+        dispatch({ type: GET_MEMES_ERROR })
+      })
 
-      if (response.ok) {
-        let memes = memesJson.map(meme => Object.assign({}, meme));
-        dispatch({ type: GET_MEMES_SUCCESS, payload: memes });
-      }
-      else
-        throw memesJson;
-    } catch (error) {
-      dispatch({ type: GET_MEMES_ERROR })
 
-    };
   }
 
   async function fetchTemplates() {
     // call GET /api/templates
     dispatch({ type: GET_TEMPLATES_BEGIN })
 
-    try {
-      const response = await fetch('/api/templates');
-      const templatesJson = await response.json();
+    API.getAllTemplates()
+      .then(templates => {
+        dispatch({ type: GET_TEMPLATES_SUCCESS, payload: templates })
+      })
+      .catch(error => {
+        console.log(error.message);
+        dispatch({ type: GET_TEMPLATES_ERROR })
+      })
 
-      if (response.ok) {
-        let templates = templatesJson.map(template => Object.assign({}, template));
-        dispatch({ type: GET_TEMPLATES_SUCCESS, payload: templates });
-      }
-      else
-        throw templatesJson;
-    } catch (error) {
-      dispatch({ type: GET_TEMPLATES_ERROR })
 
-    };
+  }
+
+  const addMeme = (meme) => {
+    API.addMeme(meme)
+      .catch(error => { console.log(error.message) })
+  }
+
+  const deleteMeme = (memeId) => {
+    API.deleteMeme(memeId)
+      .catch(e => console.log(e))
   }
 
   useEffect(() => {
-    fetchMemes();
+    console.log("sto qua")
+
+    fetchMemes().then(() => fetchTemplates())
+
 
   }, [])
 
-  useEffect(() => {
-    fetchTemplates();
 
-  }, [])
 
 
   return (
-    <MemesContext.Provider value={{ ...state, openSidebar, closeSidebar, fetchMemes }}>
+    <MemesContext.Provider value={{ ...state, openSidebar, closeSidebar, fetchMemes, addMeme, deleteMeme }}>
       {children}
     </MemesContext.Provider>
   )

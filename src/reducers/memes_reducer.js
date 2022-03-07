@@ -6,7 +6,8 @@ import {
  GET_MEMES_ERROR,
  GET_TEMPLATES_BEGIN,
  GET_TEMPLATES_SUCCESS,
- GET_TEMPLATES_ERROR
+ GET_TEMPLATES_ERROR,
+
 } from '../actions'
 
 const memes_reducer = (state, action) => {
@@ -21,10 +22,10 @@ const memes_reducer = (state, action) => {
  }
  if (action.type === GET_MEMES_SUCCESS) {
 
-  return { ...state, memes_loading: false, memes: action.payload };
+  return { ...state, memes_loading: false, memes: action.payload, dirty: false };
  }
  if (action.type === GET_MEMES_ERROR) {
-  return { ...state, memes_loading: false, memes_error: true }
+  return { ...state, memes_loading: false, memes_error: true, dirty: false }
  }
 
  if (action.type === GET_TEMPLATES_BEGIN) {
@@ -37,6 +38,7 @@ const memes_reducer = (state, action) => {
  if (action.type === GET_TEMPLATES_ERROR) {
   return { ...state, templates_loading: false, templates_error: true }
  }
+
 }
 
 

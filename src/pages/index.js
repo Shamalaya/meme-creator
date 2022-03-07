@@ -1,3 +1,5 @@
 import Home from './HomePage'
 import SingleMeme from './SingleMemePage'
-export { Home, SingleMeme }
+import FormMeme from './FormMemePage'
+import Login from './LoginPage'
+export { Home, SingleMeme, FormMeme, Login }

@@ -4,13 +4,18 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { MemesProvider } from './context/memes_context'
+import { UserProvider } from './context/user_context'
+
 
 ReactDOM.render(
-  <MemesProvider>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </MemesProvider>,
+  <UserProvider>
+    <MemesProvider>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </MemesProvider>
+  </UserProvider>
+  ,
   document.getElementById('root')
 );
 
