@@ -1,6 +1,5 @@
 import logo from './logo.svg';
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 import { Footer, Navbar, Sidebar } from './components'

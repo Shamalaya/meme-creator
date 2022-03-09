@@ -37,12 +37,12 @@ const Navbar = () => {
       <div className="nav-right">
 
         {myUser ? (<>
-          <span>{` ${myUser?.name}`}</span>
-          <button type="button" className='auth-btn' onClick={() => handleLogout()}>
+          <span className='username'>{`Welcome, ${myUser?.name}`}</span>
+          <button type="button" className='btn auth-btn' onClick={() => handleLogout()}>
             Logout
           </button></>
         ) : (
-          <Link to='/login'><button type="button" className='auth-btn'>
+          <Link to='/login'><button type="button" className='btn'>
             Login</button>
           </Link>
         )}</div>
@@ -51,17 +51,18 @@ const Navbar = () => {
 }
 
 const NavContainer = styled.nav`
-  height: 10vh;
+  height: 8vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px;
-
+  box-shadow: var(--light-shadow);
 
 
 
   .nav-header {
     margin-left: 2rem;
+    font-weight: 800;
+    font-size: 1.1rem;
 
   }
 
@@ -90,19 +91,12 @@ const NavContainer = styled.nav`
 
 
       .auth-btn {
-    display: flex;
-    align-items: center;
-    background: transparent;
-    border-color: transparent;
-    font-size: 1.0rem;
-    margin-right:1.0rem ;
-    margin-left:1.0rem ;
-
-    cursor: pointer;
-    color: var(--clr-grey-1);
-    letter-spacing: var(--spacing);
+  
   }
-
+.username{
+  margin-right: 2rem;
+  font-size: 0.88rem;
+}
   @media (max-width: 992px) {
 
     .nav-toggle {
