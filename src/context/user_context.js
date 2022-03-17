@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import API from "../API";
+import { useMemesContext } from "./memes_context";
 
 const UserContext = React.createContext();
 export const UserProvider = ({ children }) => {
   const [myUser, setMyUser] = useState(null);
   const [isAuthenticated, setIsAutenticated] = useState(false);
-
+  const { setDirty } = useMemesContext();
   useEffect(() => {
     const checkAuth = async () => {
       try {
@@ -23,6 +24,7 @@ export const UserProvider = ({ children }) => {
       .then((user) => {
         setMyUser(user);
         setIsAutenticated(true);
+        setDirty();
       })
       .catch((error) => {});
   };
@@ -32,6 +34,7 @@ export const UserProvider = ({ children }) => {
     // clean up everything
     setMyUser(null);
     setIsAutenticated(false);
+    setDirty();
   };
 
   return (

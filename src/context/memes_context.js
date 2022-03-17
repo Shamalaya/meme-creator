@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useReducer } from "react";
-import { useUserContext } from "../context/user_context";
 
 import reducer from "../reducers/memes_reducer";
 import API from "../API";
@@ -18,6 +17,7 @@ import {
   DELETE_MEME_BEGIN,
   DELETE_MEME_SUCCESS,
   DELETE_MEME_ERROR,
+  SET_DIRTY,
 } from "../actions";
 
 const initialState = {
@@ -84,7 +84,9 @@ export const MemesProvider = ({ children }) => {
       .then(() => dispatch({ type: DELETE_MEME_SUCCESS }))
       .catch((e) => dispatch({ type: DELETE_MEME_ERROR, payload: e.message }));
   };
-
+  const setDirty = () => {
+    dispatch({ type: SET_DIRTY });
+  };
   useEffect(() => {
     fetchMemes().then(() => fetchTemplates());
     console.log(state.dirty);
@@ -99,6 +101,7 @@ export const MemesProvider = ({ children }) => {
         fetchMemes,
         addMeme,
         deleteMeme,
+        setDirty,
       }}
     >
       {children}

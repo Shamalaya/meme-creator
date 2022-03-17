@@ -13,6 +13,7 @@ import {
   DELETE_MEME_BEGIN,
   DELETE_MEME_SUCCESS,
   DELETE_MEME_ERROR,
+  SET_DIRTY,
 } from "../actions";
 
 const memes_reducer = (state, action) => {
@@ -74,6 +75,9 @@ const memes_reducer = (state, action) => {
   }
   if (action.type === DELETE_MEME_ERROR) {
     return { ...state, delete_meme_loading: false, delete_meme_error: true };
+  }
+  if (action.type === SET_DIRTY) {
+    return { ...state, dirty: true };
   }
 };
 
