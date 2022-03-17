@@ -8,7 +8,7 @@ function MemeCreator() {
   const { id } = useParams();
   const { templates, memes, memes_loading, template_loading } =
     useMemesContext();
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   if (memes_loading || template_loading) {
     return <Loading />;
@@ -47,6 +47,9 @@ function MemeCreator() {
           );
         })}
       </Meme>
+      <button className="btn" onClick={() => navigate(-1)}>
+        Back
+      </button>
     </Wrapper>
   ) : null;
 }
@@ -58,11 +61,16 @@ const Wrapper = styled.div`
     margin: 2rem 0;
     text-align: center;
   }
+  button {
+    position: fixed;
+    top: 85%;
+    left: 85%;
+  }
 `;
 
 const Meme = styled.div`
-  height: 30rem;
-  width: 30rem;
+  height: 25rem;
+  width: 25rem;
   position: relative;
   background-size: contain;
   background-repeat: no-repeat;

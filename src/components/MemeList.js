@@ -22,16 +22,14 @@ function MemeList() {
 
   return (
     <Wrapper>
-      {/*   {isAuthenticated && (
-        <Link
-          to={{
-            pathname: "/new",
-          }}
-        >
-          <button className="btn btn-new">New Meme</button>
+      {isAuthenticated && (
+        <Link to="/new">
+          <button className="btn btn-new">
+            <FaPlus />
+            New Meme
+          </button>
         </Link>
-      )} */}
-      <h2>Meme List</h2>
+      )}
       <div className="memelist">
         {memes
           ? memes.map((m) => {
@@ -77,19 +75,16 @@ function MemeList() {
 export default MemeList;
 
 const Wrapper = styled.div`
+  text-align: center;
   position: relative;
   .memelist {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    margin: 2rem 20%;
+    margin: 3rem 20%;
   }
   svg {
     margin-left: 1rem;
-  }
-  h2 {
-    margin-top: 2.5rem;
-    text-align: center;
   }
   p {
     display: flex;
@@ -110,12 +105,12 @@ const Wrapper = styled.div`
   }
 
   .btn-new {
-    font-size: 2rem;
-    position: fixed;
-    top: 75%;
-    left: 75%;
+    font-size: 1.5rem;
+    margin-top: 3rem;
   }
-
+  .btn-copy {
+    background-color: var(--clr-grey-4);
+  }
   @media (max-width: 992px) {
   }
 `;

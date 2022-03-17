@@ -128,19 +128,19 @@ const MemeForm = ({ copy }) => {
           <option value="Red" label="Red" />
           <option value="Green" label="Green" />
         </select>
-
-        <input
-          type="checkbox"
-          id="myProtected"
-          name="myProtected"
-          disabled={disableCheckbox}
-          value={formik.values.myProtected}
-          onChange={formik.handleChange}
-        />
-        <label htmlFor="myProtected" className="checks">
-          Protected
-        </label>
-
+        <div className="checkbox">
+          <label htmlFor="myProtected" className="checks">
+            Protected
+          </label>
+          <input
+            type="checkbox"
+            id="myProtected"
+            name="myProtected"
+            disabled={disableCheckbox}
+            value={formik.values.myProtected}
+            onChange={formik.handleChange}
+          />
+        </div>
         <button className="btn" type="submit">
           Submit
         </button>
@@ -174,10 +174,23 @@ const Wrapper = styled.div`
     width: 160%;
   }
 
+  button,
+  input,
+  select,
+  textarea {
+    font-family: inherit;
+    font-size: 100%;
+  }
+  input,
+  select {
+    box-shadow: inset 1px 1px 3px #ccc;
+    border-radius: 5px;
+    margin-bottom: 0.9rem;
+  }
   input[type="text"] {
     min-height: 2rem;
     padding: 0.5em;
-    border: solid 1px #999;
+
     width: 150%;
   }
 
@@ -188,6 +201,12 @@ const Wrapper = styled.div`
 
   button {
     margin-top: 2rem;
+  }
+  .checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 45%;
   }
 `;
 export default MemeForm;

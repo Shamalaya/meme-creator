@@ -9,7 +9,7 @@ import logo from "../assets/logo.png";
 
 const Navbar = () => {
   const { openSidebar } = useMemesContext();
-  const { myUser, handleLogout, isAuthenticated } = useUserContext();
+  const { myUser, handleLogout } = useUserContext();
 
   return (
     <NavContainer>
@@ -32,7 +32,6 @@ const Navbar = () => {
       <div className="nav-right">
         {myUser ? (
           <>
-            <span className="username">{`${myUser?.name}`}</span>
             <button
               type="button"
               className="btn auth-btn"
@@ -69,10 +68,13 @@ const NavContainer = styled.nav`
     margin-left: 2rem;
     font-weight: 800;
     font-size: 1.1rem;
+    a {
+      color: var(--clr-primary-5);
+    }
   }
 
   .nav-links {
-    margin-left: 2rem;
+    margin-left: -3rem;
     display: flex;
     padding: 1rem 1rem;
     a {
@@ -80,7 +82,7 @@ const NavContainer = styled.nav`
       font-size: 1rem;
       text-transform: capitalize;
       letter-spacing: var(--spacing);
-      padding: 1.5rem;
+      padding: 1rem 2.5rem;
       &:hover {
         border-bottom: 2px solid var(--clr-primary-7);
       }
