@@ -1,70 +1,170 @@
-# Getting Started with Create React App
+Simple project for a meme generator that uses React NodeJs Express and REST api.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## React Client Application Routes
 
-## Available Scripts
+- Route `/`: homepage with a list of memes.
+- Route `/login`: page with the login form.
+- Route `/new` page for choosing a template for a new meme.
+- Route `/new/:id` page with a form to create a new meme. :id is the id of the selected template.
+- Route `/copy/:id` page with a form to copy an existing meme.
+- Route `/memes/:id` page to display an existing meme. :id is the id of the selected meme.
 
-In the project directory, you can run:
+## API Server
 
-### `npm start`
+#### Get all memes
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- HTTP method: `GET` URL: `/api/memes`
+- Description: Get the full list of memes if logged in or, if not, only the non protected ones
+- Request body: _None_
+- Response: `200 OK` (success)
+- Response body: Array of objects, each describing one meme:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```JSON
+[{
+    "id": 2,
+    "template_id": "Go for a walk",
+    "user_id": 1,
+    "user_name": "Mario",
+    "title": "Titolo",
+    "texts": ["testo1", "testo2", "testo3"],
+    "font": "Arial",
+    "color": "Black",
+    "protected": true
+}]
+```
 
-### `npm test`
+- Error responses: `500 Internal Server Error` (generic error)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### Get all Templates
 
-### `npm run build`
+- HTTP method: `GET` URL: `/api/memes`
+- Description: Get the full list of memes if logged in, or if not logged, only the non protected ones
+- Request body: _None_
+- Response: `200 OK` (success)
+- Response body: Array of objects, each describing one template:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```JSON
+[{
+    "id": 2,
+    "url": "/immagine.jpg",
+    "fontSize": 10,
+    "textAreaNumber": 3,
+    "textAreas": [["text0_top","text0_left", "text0_width"], ["text1_top", "text1_left", "text1_width"], ["text2_top", "text2_left", "text2_width"]]
+}]
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Error responses: `500 Internal Server Error` (generic error)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Add a new meme
 
-### `npm run eject`
+- HTTP method: `POST` URL: `/api/memes`
+- Description: Add a new meme for a logged user
+- Request body: description of the object to add
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```JSON
+{
+    "templateId": 20,
+    "title": "meme",
+    "text": ["text1","tex2","text3"],
+    "font": "Arial",
+    "color": "Black",
+    "protected": true
+}
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Response: `200 OK` (success)
+- Response body: the object as represented in the database
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Error responses: `422 Unprocessable Entity` (values do not satisfy validators), `503 Service Unavailable` (database error)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Delete an existing meme
 
-## Learn More
+- HTTP method: `DELETE` URL: `/api/memes/:id`
+- Description: Delete an existing meme of the logged user
+- Request body: _None_
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Response: `200 OK` (success)
+- Response body: an empty object
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Error responses: `503 Service Unavailable` (database error)
 
-### Code Splitting
+### User management
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+#### Login
 
-### Analyzing the Bundle Size
+- HTTP method: `POST` URL: `/api/sessions`
+- Description: authenticate the user who is trying to login
+- Request body: credentials of the user who is trying to login
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```JSON
+{
+    "username": "username",
+    "password": "password"
+}
+```
 
-### Making a Progressive Web App
+- Response: `200 OK` (success)
+- Response body: authenticated user
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```JSON
+{
+    "id": 1,
+    "username": "john.doe@polito.it",
+    "name": "John"
+}
+```
 
-### Advanced Configuration
+- Error responses: `500 Internal Server Error` (generic error), `401 Unauthorized User` (login failed)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+#### Check if user is logged in
 
-### Deployment
+- HTTP method: `GET` URL: `/api/sessions/current`
+- Description: check if current user is logged in and get her data
+- Request body: _None_
+- Response: `200 OK` (success)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- Response body: authenticated user
 
-### `npm run build` fails to minify
+```JSON
+{
+    "id": 1,
+    "username": "john.doe@polito.it",
+    "name": "John"
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Error responses: `500 Internal Server Error` (generic error), `401 Unauthorized User` (user is not logged in)
+
+#### Logout
+
+- HTTP method: `DELETE` URL: `/api/sessions/current`
+- Description: logout current user
+- Request body: _None_
+- Response: `200 OK` (success)
+
+- Response body: _None_
+
+- Error responses: `500 Internal Server Error` (generic error), `401 Unauthorized User` (user is not logged in)
+
+## Database Tables
+
+- Table `user` - contains id, email, name, hash
+- Table `meme` - contains id, template_id, user_id, user_name, title, text0, text1, text2, font, color, protected
+- Table `template` - contains id, url, font_size, text_areas, text0_top, text0_left, text0_width, text1_top, text1_left, text1_width, text2_top, text2_left, text2_width
+
+## Main React Components
+
+- `Login` (in `Login.js`): Component with login form
+- `MemeCreator` (in `MemeCreator.js`): Component for display an existing meme
+- `MemeForm` (in `MemeForm`): Component with the form to create or copy a new meme
+- `MemeList` (in `MemeList`): Component to show a list of existing memes -`NavigationBar` (in `NavigationBar`): Component for a navbar -`TemplateSelect` (in `TemplateSelect`): Component that shows all the meme templates
+
+## Screenshot
+
+![Screenshot](./img/screenshot.png)
+
+## Users Credentials
+
+- dario@polito.it, "password"
+- marco@polito.it, "password"
+- angelo@polito.it "password"

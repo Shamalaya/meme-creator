@@ -81,7 +81,7 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: center;
     flex-direction: column;
-    margin: 3rem 20%;
+    margin: 7rem 20%;
   }
   svg {
     margin-left: 1rem;
