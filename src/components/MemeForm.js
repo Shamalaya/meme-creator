@@ -1,135 +1,193 @@
-import { useFormik } from 'formik';
-import React from 'react'
-import { useMemesContext } from '../context/memes_context';
-import { useParams } from 'react-router-dom';
-import styled from 'styled-components'
-import Loading from './Loading';
+import { useFormik } from "formik";
+import React from "react";
+import { useMemesContext } from "../context/memes_context";
+import { useParams } from "react-router-dom";
+import styled from "styled-components";
+import Loading from "./Loading";
+import { useNavigate } from "react-router";
+import { useUserContext } from "../context/user_context";
 
-const MemeForm = () => {
-    const { id } = useParams();
+const MemeForm = ({ copy }) => {
+  const { id } = useParams();
 
-    const { templates, memes, addMeme } = useMemesContext();
-    const template = templates.find(el => el.id === parseInt(id))
+  let navigate = useNavigate();
+  const { templates, memes, addMeme, memes_loading, template_loading } =
+    useMemesContext();
+  const { myUser } = useUserContext();
 
-    const validate = values => {
+  const meme = copy ? memes.find((el) => el.id === parseInt(id)) : {};
+  const template = copy
+    ? templates.find(
+        (el) => el.id === memes.find((el) => el.id === parseInt(id)).template_id
+      )
+    : templates.find((el) => el.id === parseInt(id));
 
-        // basic validation
-        const errors = {};
-        if (!values.title) {
-            errors.title = 'Required';
-        } else if (values.title.length > 15) {
-            errors.title = 'Must be 15 characters or less';
-        }
+  let disableCheckbox = false;
+  if (copy) {
+    disableCheckbox = !!meme.protected === true && myUser.id !== meme.user_id;
+  }
 
-        if (values.text[0] === '' && values.text[1] === "" && values.text[2] === "") {
-            errors.text = 'Write at least one text';
-        }
-        return errors;
+  const submitForm = (newMeme) => {
+    addMeme(newMeme);
+    navigate("/");
+  };
+
+  const validate = (values) => {
+    // basic validation
+    const errors = {};
+    if (!values.title) {
+      errors.title = "Required";
+    } else if (values.title.length > 15) {
+      errors.title = "Must be 15 characters or less";
     }
 
-    const formik = useFormik({
-        initialValues: {
-            title: '',
-            font: 'Arial',
-            color: "Black",
-            myProtected: false,
-            text: ["", "", ""],
-        },
-        validate,
-        onSubmit: values => {
-            const templateId = id;
-            const newMeme = { templateId: templateId, title: values.title, text: values.text, font: values.font, color: values.color, protected: values.myProtected }
-            console.log(newMeme)
-            addMeme(newMeme)
-        },
-    });
-    return (template ? <Wrapper className='section'>
-        <div className='section-center'>
-            <form onSubmit={formik.handleSubmit}>
-                <label htmlFor="title">Title</label>
+    if (
+      values.text[0] === "" &&
+      values.text[1] === "" &&
+      values.text[2] === ""
+    ) {
+      errors.text = "Write at least one text";
+    }
+    return errors;
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      title: copy ? meme.title : "",
+      font: copy ? meme.font : "Arial",
+      color: copy ? meme.color : "Black",
+      myProtected: copy ? !!meme.protected : false,
+      text: copy ? [meme.texts[0], meme.texts[1], meme.texts[2]] : ["", "", ""],
+    },
+    validate,
+    onSubmit: (values) => {
+      const templateId = id;
+      const newMeme = {
+        templateId: templateId,
+        title: values.title,
+        text: values.text,
+        font: values.font,
+        color: values.color,
+        protected: values.myProtected,
+      };
+      submitForm(newMeme);
+    },
+  });
+  return template && meme ? (
+    <Wrapper>
+      <h1>Create your meme</h1>
+      <form onSubmit={formik.handleSubmit}>
+        <label htmlFor="title">Title</label>
+        <input
+          id="title"
+          name="title"
+          type="text"
+          onChange={formik.handleChange}
+          value={formik.values.title}
+        />
+        {formik.errors.title ? <div>{formik.errors.title}</div> : null}
+
+        {template.textAreas
+          .filter((el) => el[0] != null)
+          .map((el, index) => {
+            return (
+              <div key={index}>
+                <label htmlFor={`text[${index}]`}>{"Text" + (index + 1)}</label>
                 <input
-                    id="title"
-                    name="title"
-                    type="text"
-                    onChange={formik.handleChange}
-                    value={formik.values.title}
+                  name={`text[${index}]`}
+                  type="text"
+                  onChange={formik.handleChange}
+                  value={formik.values.text[index]}
                 />
-                {formik.errors.title ? <div>{formik.errors.title}</div> : null}
+              </div>
+            );
+          })}
+        {formik.errors.text ? <div>{formik.errors.text}</div> : null}
 
-                {template.textAreas
-                    .filter((el) => el[0] != null)
-                    .map((el, index) => {
-                        return (<div key={index}>
-                            <label
-                                htmlFor={`text[${index}]`}>{'Text' + (index + 1)}</label>
-                            <input
-                                name={`text[${index}]`}
-                                type="text"
-                                onChange={formik.handleChange}
-                                value={formik.values.text[index]} />
-                        </div>)
-                    })}
-                {formik.errors.text ? <div>{formik.errors.text}</div> : null}
+        <label htmlFor="font">Font</label>
+        <select
+          name="font"
+          value={formik.values.font}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          style={{ display: "block" }}
+        >
+          <option value="Arial" label="Arial" />
+          <option value="Verdana" label="Verdana" />
+        </select>
+        <label htmlFor="color">Color</label>
+        <select
+          name="color"
+          value={formik.values.color}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          style={{ display: "block" }}
+        >
+          <option value="Black" label="Black" />
+          <option value="Blue" label="Blue" />
+          <option value="Red" label="Red" />
+          <option value="Green" label="Green" />
+        </select>
 
-                <label htmlFor="font">Font</label>
-                <select
-                    name="font"
-                    value={formik.values.font}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    style={{ display: 'block' }}
-                >
-                    <option value="Arial" label="Arial" />
-                    <option value="Verdana" label="Verdana" />
-                </select>
-                <label htmlFor="color">Color</label>
-                <select
-                    name="color"
-                    value={formik.values.color}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    style={{ display: 'block' }}
-                >
-                    <option value="Black" label="Black" />
-                    <option value="Blue" label="Blue" />
-                    <option value="Red" label="Red" />
-                    <option value="Green" label="Green" />
+        <input
+          type="checkbox"
+          id="myProtected"
+          name="myProtected"
+          disabled={disableCheckbox}
+          value={formik.values.myProtected}
+          onChange={formik.handleChange}
+        />
+        <label htmlFor="myProtected" className="checks">
+          Protected
+        </label>
 
-
-                </select>
-
-                <label htmlFor='myProtected'>Protected</label>
-                <input
-                    type="checkbox"
-                    id="myProtected"
-                    name="myProtected"
-                    value={formik.values.myProtected}
-                    onChange={formik.handleChange} />
-
-
-                <button className='btn' type="submit">Submit</button>
-
-            </form ></div></Wrapper> : <Loading />
-    );
-}
-
+        <button className="btn" type="submit">
+          Submit
+        </button>
+      </form>
+    </Wrapper>
+  ) : (
+    <Loading />
+  );
+};
 
 const Wrapper = styled.div`
+  margin-top: 5rem;
+  text-align: center;
+  width: 100%;
+  form {
+    display: inline-block;
+    text-align: left;
+    margin-left: -5rem;
+  }
+  label {
+    display: block;
+    margin-top: 1rem;
+  }
+  .checks label {
+    margin-top: 0;
+  }
 
+  .text-input {
+    padding: 0.5rem;
+    border: solid 1px #999;
+    width: 160%;
+  }
 
+  input[type="text"] {
+    min-height: 2rem;
+    padding: 0.5em;
+    border: solid 1px #999;
+    width: 150%;
+  }
 
-button, input, select, textarea {
-  font-family: inherit;
-  font-size: 100%;
-}
+  input[type="checkbox"] {
+    padding-top: 0;
+    margin-top: 2rem;
+  }
 
-input, textarea, select, button {
-  width : 150px;
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
-
-`
+  button {
+    margin-top: 2rem;
+  }
+`;
 export default MemeForm;

@@ -72,18 +72,9 @@ body {
   color: var(--clr-grey-1);
   line-height: 1.5;
   font-size: 0.875rem;
-
+  margin: 5rem 0;
 }
 
-footer {
-  background-color: orange;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 100px;
-  width: 100%;
-  overflow: hidden;
-}
 
 ul {
   list-style-type: none;
@@ -169,26 +160,6 @@ p {
 
 /*  global classes */
 
-/* section */
-.section {
-  padding: 5rem 0;
-}
-
-.section-center {
-  width: 90vw;
-  margin: 0 auto;
-  max-width: var(--max-width);
-}
-
-@media screen and (min-width: 992px) {
-  .section-center {
-    width: 95vw;
-  }
-}
-
-.text-center {
-  text-align: center;
-}
 
 @keyframes spinner {
   to {
@@ -239,13 +210,4 @@ p {
   background: var(--clr-primary-5);
   margin-left: auto;
   margin-right: auto;
-}
-
-.page-100 {
-  min-height: calc(100vh - 10rem);
-  padding: 5rem 0;
-}
-
-.page {
-  min-height: calc(100vh - (20vh + 10rem));
 }

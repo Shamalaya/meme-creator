@@ -1,12 +1,12 @@
-import React from 'react'
-import MemeForm from '../components/MemeForm'
+import React from "react";
+import MemeForm from "../components/MemeForm";
 
-const FormMemePage = () => {
- return (
-  <main>
-   <MemeForm />
-  </main>
- )
-}
+const FormMemePage = ({ copy }) => {
+  return (
+    <main>
+      <MemeForm copy={copy} />
+    </main>
+  );
+};
 
-export default FormMemePage
+export default FormMemePage;

@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useReducer }
-  from 'react'
-import { useUserContext } from '../context/user_context'
+import React, { useContext, useEffect, useReducer } from "react";
+import { useUserContext } from "../context/user_context";
 
-import reducer from '../reducers/memes_reducer'
-import API from '../API'
+import reducer from "../reducers/memes_reducer";
+import API from "../API";
 import {
   SIDEBAR_OPEN,
   SIDEBAR_CLOSE,
@@ -13,8 +12,13 @@ import {
   GET_TEMPLATES_BEGIN,
   GET_TEMPLATES_SUCCESS,
   GET_TEMPLATES_ERROR,
-
-} from '../actions'
+  ADD_MEME_BEGIN,
+  ADD_MEME_SUCCESS,
+  ADD_MEME_ERROR,
+  DELETE_MEME_BEGIN,
+  DELETE_MEME_SUCCESS,
+  DELETE_MEME_ERROR,
+} from "../actions";
 
 const initialState = {
   isSidebarOpen: false,
@@ -25,81 +29,83 @@ const initialState = {
   memes: [],
   templates: [],
   dirty: false,
-}
+};
 
-
-const MemesContext = React.createContext()
+const MemesContext = React.createContext();
 
 export const MemesProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState)
-  const { isAuthenticated } = useUserContext();
+  const [state, dispatch] = useReducer(reducer, initialState);
   const openSidebar = () => {
-    dispatch({ type: SIDEBAR_OPEN })
-  }
+    dispatch({ type: SIDEBAR_OPEN });
+  };
   const closeSidebar = () => {
-    dispatch({ type: SIDEBAR_CLOSE })
-  }
+    dispatch({ type: SIDEBAR_CLOSE });
+  };
 
   async function fetchMemes() {
     // call GET /api/memes
-    dispatch({ type: GET_MEMES_BEGIN })
+    dispatch({ type: GET_MEMES_BEGIN });
 
     API.getAllMemes()
-      .then(memes => {
-        dispatch({ type: GET_MEMES_SUCCESS, payload: memes })
+      .then((memes) => {
+        dispatch({ type: GET_MEMES_SUCCESS, payload: memes });
       })
-      .catch(error => {
-        console.log(error.message);
-        dispatch({ type: GET_MEMES_ERROR })
-      })
-
-
+      .catch((error) => {
+        dispatch({ type: GET_MEMES_ERROR });
+      });
   }
 
   async function fetchTemplates() {
     // call GET /api/templates
-    dispatch({ type: GET_TEMPLATES_BEGIN })
+    dispatch({ type: GET_TEMPLATES_BEGIN });
 
     API.getAllTemplates()
-      .then(templates => {
-        dispatch({ type: GET_TEMPLATES_SUCCESS, payload: templates })
+      .then((templates) => {
+        dispatch({ type: GET_TEMPLATES_SUCCESS, payload: templates });
       })
-      .catch(error => {
-        console.log(error.message);
-        dispatch({ type: GET_TEMPLATES_ERROR })
-      })
-
-
+      .catch((error) => {
+        dispatch({ type: GET_TEMPLATES_ERROR });
+      });
   }
 
   const addMeme = (meme) => {
+    dispatch({ type: ADD_MEME_BEGIN });
+
     API.addMeme(meme)
-      .catch(error => { console.log(error.message) })
-  }
+      .then(() => dispatch({ type: ADD_MEME_SUCCESS }))
+      .catch((error) => {
+        dispatch({ type: ADD_MEME_ERROR, payload: error.message });
+      });
+  };
 
   const deleteMeme = (memeId) => {
+    dispatch({ type: DELETE_MEME_BEGIN });
     API.deleteMeme(memeId)
-      .catch(e => console.log(e))
-  }
+      .then(() => dispatch({ type: DELETE_MEME_SUCCESS }))
+      .catch((e) => dispatch({ type: DELETE_MEME_ERROR, payload: e.message }));
+  };
 
   useEffect(() => {
-    console.log("sto qua")
-
-    fetchMemes().then(() => fetchTemplates())
-
-
-  }, [])
-
-
-
+    fetchMemes().then(() => fetchTemplates());
+    console.log(state.dirty);
+  }, [state.dirty]);
 
   return (
-    <MemesContext.Provider value={{ ...state, openSidebar, closeSidebar, fetchMemes, addMeme, deleteMeme }}>
+    <MemesContext.Provider
+      value={{
+        ...state,
+        openSidebar,
+        closeSidebar,
+        fetchMemes,
+        addMeme,
+        deleteMeme,
+      }}
+    >
       {children}
     </MemesContext.Provider>
-  )
-}
+  );
+};
 
 export const useMemesContext = () => {
-  return useContext(MemesContext)
-}
+  return useContext(MemesContext);
+};
