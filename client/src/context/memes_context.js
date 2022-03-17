@@ -82,14 +82,15 @@ export const MemesProvider = ({ children }) => {
     dispatch({ type: DELETE_MEME_BEGIN });
     API.deleteMeme(memeId)
       .then(() => dispatch({ type: DELETE_MEME_SUCCESS }))
-      .catch((e) => dispatch({ type: DELETE_MEME_ERROR, payload: e.message }));
+      .catch((error) =>
+        dispatch({ type: DELETE_MEME_ERROR, payload: error.message })
+      );
   };
   const setDirty = () => {
     dispatch({ type: SET_DIRTY });
   };
   useEffect(() => {
     fetchMemes().then(() => fetchTemplates());
-    console.log(state.dirty);
   }, [state.dirty]);
 
   return (
