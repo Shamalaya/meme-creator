@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { FaBars } from "react-icons/fa";
 import { links } from "../utils/constants";
 import { Link } from "react-router-dom";
-import logo from "../assets/logo.png";
 
 const Navbar = () => {
   const { openSidebar } = useMemesContext();

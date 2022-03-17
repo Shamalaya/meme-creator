@@ -11,8 +11,7 @@ const MemeForm = ({ copy }) => {
   const { id } = useParams();
 
   let navigate = useNavigate();
-  const { templates, memes, addMeme, memes_loading, template_loading } =
-    useMemesContext();
+  const { templates, memes, addMeme } = useMemesContext();
   const { myUser } = useUserContext();
 
   const meme = copy ? memes.find((el) => el.id === parseInt(id)) : {};

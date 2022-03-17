@@ -3,17 +3,11 @@ import { AiFillLock } from "react-icons/ai";
 import { useMemesContext } from "../context/memes_context";
 import { useUserContext } from "../context/user_context";
 import styled from "styled-components";
-import Loading from "./Loading";
 import Error from "./Error";
 import { FaPlus } from "react-icons/fa";
 
 function MemeList() {
-  const {
-    memes_loading: loading,
-    memes_error: error,
-    memes,
-    deleteMeme,
-  } = useMemesContext();
+  const { memes_error: error, memes, deleteMeme } = useMemesContext();
   const { isAuthenticated, myUser } = useUserContext();
 
   if (error) {
