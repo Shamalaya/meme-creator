@@ -25,7 +25,6 @@ exports.listMemes = () => {
         };
       });
       resolve(memes);
-      console.log(memes);
     });
   });
 };
@@ -39,7 +38,6 @@ exports.listPublicMemes = () => {
         reject(err);
         return;
       }
-      console.log("sto qua");
       const memes = rows.map((el) => {
         return {
           id: el.id,
@@ -53,7 +51,6 @@ exports.listPublicMemes = () => {
           protected: el.protected,
         };
       });
-      console.log(memes);
       resolve(memes);
     });
   });

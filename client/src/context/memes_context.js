@@ -28,7 +28,7 @@ const initialState = {
   templates_error: false,
   memes: [],
   templates: [],
-  dirty: false,
+  dirty: true,
 };
 
 const MemesContext = React.createContext();
@@ -90,7 +90,9 @@ export const MemesProvider = ({ children }) => {
     dispatch({ type: SET_DIRTY });
   };
   useEffect(() => {
-    fetchMemes().then(() => fetchTemplates());
+    if (state.dirty === true) {
+      fetchMemes().then(() => fetchTemplates());
+    }
   }, [state.dirty]);
 
   return (
