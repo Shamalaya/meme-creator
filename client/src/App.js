@@ -11,16 +11,18 @@ function App() {
     <Router>
       <Navbar />
       <Sidebar />
-      <Routes>
-        <Route exact path="/" element={<Home />} />
+      <div className="container">
+        <Routes>
+          <Route exact path="/" element={<Home />} />
 
-        <Route exact path="/new" element={<TemplateSelect />}></Route>
-        <Route exact path="/login" element={<Login />}></Route>
-        <Route exact path="/new/:id" element={<FormMeme />}></Route>
-        <Route exact path="/memes/:id" element={<SingleMeme />} />
-        <Route exact path="/copy/:id/" element={<FormMeme copy={true} />} />
-        <Route path="*"></Route>
-      </Routes>
+          <Route exact path="/new" element={<TemplateSelect />}></Route>
+          <Route exact path="/login" element={<Login />}></Route>
+          <Route exact path="/new/:id" element={<FormMeme />}></Route>
+          <Route exact path="/memes/:id" element={<SingleMeme />} />
+          <Route exact path="/copy/:id/" element={<FormMeme copy={true} />} />
+          <Route path="*"></Route>
+        </Routes>
+      </div>
       <Footer />
     </Router>
   );

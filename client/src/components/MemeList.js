@@ -16,6 +16,7 @@ function MemeList() {
 
   return (
     <Wrapper>
+      <h2>All Memes</h2>
       {isAuthenticated && (
         <Link to="/new">
           <button className="btn btn-new">
@@ -34,7 +35,9 @@ function MemeList() {
                     style={{ textDecoration: "none" }}
                   >
                     {m.title}
+                    <a className="madeBy"> by {m.user_name}</a>
                   </Link>
+
                   {m.protected ? <AiFillLock /> : ""}
                   {isAuthenticated ? (
                     <span>
@@ -69,6 +72,7 @@ function MemeList() {
 export default MemeList;
 
 const Wrapper = styled.div`
+  margin-top: 5rem;
   text-align: center;
   position: relative;
   .memelist {
@@ -79,6 +83,10 @@ const Wrapper = styled.div`
   }
   svg {
     margin-left: 1rem;
+  }
+  .madeBy {
+    font-size: 0.8rem;
+    color: grey;
   }
   p {
     display: flex;
