@@ -72,14 +72,14 @@ function MemeList() {
 export default MemeList;
 
 const Wrapper = styled.div`
-  margin-top: 5rem;
   text-align: center;
   position: relative;
+  padding-top: 4rem;
   .memelist {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    margin: 7rem 20%;
+    margin: 5rem 20%;
   }
   svg {
     margin-left: 1rem;
@@ -113,6 +113,8 @@ const Wrapper = styled.div`
   .btn-copy {
     background-color: var(--clr-grey-4);
   }
-  @media (max-width: 992px) {
+  @media (max-width: 1170px) {
+    margin-top: 4rem;
+    padding-top: 4rem;
   }
 `;

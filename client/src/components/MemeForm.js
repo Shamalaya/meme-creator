@@ -154,6 +154,8 @@ const Wrapper = styled.div`
   margin-top: 5rem;
   text-align: center;
   width: 100%;
+  padding-bottom: 4rem;
+
   form {
     display: inline-block;
     text-align: left;

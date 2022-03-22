@@ -57,6 +57,7 @@ function MemeCreator() {
 export default MemeCreator;
 
 const Wrapper = styled.div`
+  padding-top: 4rem;
   h1 {
     margin: 2rem 0;
     text-align: center;

@@ -12,7 +12,7 @@ function TemplateSelect() {
       <div className="img-container">
         {templates.map((el) => {
           return (
-            <div key={el.id} className="container">
+            <div key={el.id} className="img-box">
               <Link to={"/new/" + el.id}>
                 {" "}
                 <img src={el.url} className="image" />
@@ -51,7 +51,7 @@ const Wrapper = styled.section`
     grid-template-columns: repeat(4, 1fr);
   }
 
-  .container:hover img {
+  .img-box:hover img {
     opacity: 0.5;
   }
 
