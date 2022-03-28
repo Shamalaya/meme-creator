@@ -13,10 +13,14 @@ const LoginForm = () => {
     const errors = {};
     if (!values.username) {
       errors.username = "Required";
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.username)
+    ) {
+      errors.username = "Invalid email address";
     }
 
     if (!values.password) {
-      errors.password = "Write assword";
+      errors.password = "Write password";
     }
     return errors;
   };
@@ -45,7 +49,9 @@ const LoginForm = () => {
           value={formik.values.username}
           className="form-input"
         />
-        {formik.errors.username ? <div>{formik.errors.username}</div> : null}
+        {formik.errors.username ? (
+          <div className="error-message">{formik.errors.username}</div>
+        ) : null}
 
         <label htmlFor="password" className="form-text">
           Password
@@ -58,10 +64,12 @@ const LoginForm = () => {
           value={formik.values.password}
           className="form-input"
         />
-        {formik.errors.password ? <div>{formik.errors.password}</div> : null}
+        {formik.errors.password ? (
+          <div className="error-message">{formik.errors.password}</div>
+        ) : null}
 
         <button className="btn" type="submit">
-          Submit
+          Login
         </button>
       </form>
     </Wrapper>
@@ -71,12 +79,11 @@ const LoginForm = () => {
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
-  padding-top: 4rem;
+  padding-top: 15rem;
 
   form {
     display: flex;
     flex-direction: column;
-
     .form-text {
       font-size: 1.5rem;
     }
@@ -84,11 +91,9 @@ const Wrapper = styled.div`
     .form-input {
       box-shadow: inset 1px 1px 3px #ccc;
       border-radius: 5px;
-      margin-bottom: 0.9rem;
     }
   }
 
-  button,
   input,
   select,
   textarea {
@@ -98,12 +103,20 @@ const Wrapper = styled.div`
 
   input,
   textarea,
-  select,
-  button {
-    width: 150px;
+  select {
+    width: 250px;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+  }
+
+  .error-message {
+    color: red;
+    font-size: 0.9rem;
+  }
+
+  button {
+    margin-top: 1rem;
   }
 `;
 export default LoginForm;

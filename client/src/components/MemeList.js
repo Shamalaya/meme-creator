@@ -4,22 +4,41 @@ import { useMemesContext } from "../context/memes_context";
 import { useUserContext } from "../context/user_context";
 import styled from "styled-components";
 import Error from "./Error";
+import { useState } from "react";
+import DeleteModal from "./DeleteModal";
 
 function MemeList(props) {
   let { memes_error: error, memes, deleteMeme } = useMemesContext();
   const { isAuthenticated, myUser } = useUserContext();
+  const [showModal, setShowModal] = useState({
+    show: false,
+    id: null,
+  });
+  let title = "ALL MEMES";
 
   if (error) {
     return <Error />;
   }
-  props.myMemes &&
-    (memes = memes.filter((meme) => {
+  if (props.myMemes === true) {
+    memes = memes.filter((meme) => {
       return meme.user_id === myUser.id;
-    }));
+    });
+    title = "MY MEMES";
+  }
+  const handleShow = (obj) => {
+    setShowModal(obj);
+  };
 
   return (
     <Wrapper>
-      <h2>ALL MEMES</h2>
+      {showModal.show && (
+        <DeleteModal
+          setShowModal={handleShow}
+          deleteMeme={deleteMeme}
+          id={showModal.id}
+        />
+      )}
+      <h2>{title}</h2>
       {isAuthenticated && (
         <Link to="/new">
           <button className="btn btn-new">New Meme</button>
@@ -43,7 +62,7 @@ function MemeList(props) {
                     <span>
                       {m.user_id === myUser.id ? (
                         <button
-                          onClick={() => deleteMeme(m.id)}
+                          onClick={() => setShowModal({ show: true, id: m.id })}
                           className="btn btn-delete"
                         >
                           Delete
@@ -75,6 +94,8 @@ const Wrapper = styled.div`
   text-align: center;
   position: relative;
   padding-top: 4rem;
+  padding-bottom: 4rem;
+
   .memelist {
     display: flex;
     justify-content: center;

@@ -203,7 +203,7 @@ p {
 .btn {
   text-transform: uppercase;
   background: var(--clr-primary-5);
-  color: var(--clr-primary-10);
+  color: white;
   padding: 0.25rem 0.35rem;
   letter-spacing: var(--spacing);
   display: inline-block;
