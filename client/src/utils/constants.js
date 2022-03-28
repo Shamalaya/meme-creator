@@ -8,6 +8,16 @@ export const links = [
   },
   {
     id: 2,
+    text: "My Memes",
+    url: "/about",
+  },
+  {
+    id: 3,
+    text: "All Memes",
+    url: "/about",
+  },
+  {
+    id: 4,
     text: "About",
     url: "/about",
   },

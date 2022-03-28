@@ -81,7 +81,7 @@ const NavContainer = styled.nav`
       font-size: 1rem;
       text-transform: capitalize;
       letter-spacing: var(--spacing);
-      padding: 1rem 2.5rem;
+      padding: 1rem 1.5rem;
       &:hover {
         border-bottom: 2px solid var(--clr-primary-7);
       }
