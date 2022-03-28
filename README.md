@@ -7,7 +7,7 @@ Run the backend app. From the app root directory:
 ```
 cd server
 npm install
- start
+npm start
 ```
 
 Run the frontend app. From the app root directory:
