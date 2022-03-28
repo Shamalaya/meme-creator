@@ -1,5 +1,23 @@
 Simple project for a meme generator that uses React NodeJs Express and REST api.
 
+## How to run the app
+
+Run the backend app. From the app root directory:
+
+```
+cd server
+npm install
+ start
+```
+
+Run the frontend app. From the app root directory:
+
+```
+cd client
+npm install
+npm start
+```
+
 ## React Client Application Routes
 
 - Route `/`: homepage with a list of memes.
