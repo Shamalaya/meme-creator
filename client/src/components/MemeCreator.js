@@ -35,6 +35,7 @@ function MemeCreator() {
                   left: el[1],
                   width: el[2],
                   overflowWrap: "normal",
+                  textTransform: "none",
                   color: meme.color,
                   fontFamily: meme.font,
                   fontSize: template.fontSize,

@@ -4,7 +4,6 @@ import { useMemesContext } from "../context/memes_context";
 import { useUserContext } from "../context/user_context";
 import styled from "styled-components";
 import Error from "./Error";
-import { FaPlus } from "react-icons/fa";
 
 function MemeList() {
   const { memes_error: error, memes, deleteMeme } = useMemesContext();
@@ -19,10 +18,7 @@ function MemeList() {
       <h2>All Memes</h2>
       {isAuthenticated && (
         <Link to="/new">
-          <button className="btn btn-new">
-            <FaPlus />
-            New Meme
-          </button>
+          <button className="btn btn-new">New Meme</button>
         </Link>
       )}
       <div className="memelist">
