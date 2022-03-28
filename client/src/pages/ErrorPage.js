@@ -20,9 +20,9 @@ const Wrapper = styled.main`
   justify-content: center;
   align-items: center;
   text-align: center;
-  margin-top: 10rem;
+  padding-top: 10rem;
   h1 {
-    font-size: 8rem;
+    font-size: 5rem;
   }
   h3 {
     text-transform: none;

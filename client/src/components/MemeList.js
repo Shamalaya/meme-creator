@@ -5,13 +5,17 @@ import { useUserContext } from "../context/user_context";
 import styled from "styled-components";
 import Error from "./Error";
 
-function MemeList() {
-  const { memes_error: error, memes, deleteMeme } = useMemesContext();
+function MemeList(props) {
+  let { memes_error: error, memes, deleteMeme } = useMemesContext();
   const { isAuthenticated, myUser } = useUserContext();
 
   if (error) {
     return <Error />;
   }
+  props.myMemes &&
+    (memes = memes.filter((meme) => {
+      return meme.user_id === myUser.id;
+    }));
 
   return (
     <Wrapper>

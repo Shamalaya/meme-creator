@@ -1,43 +1,58 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { useMemesContext } from '../context/memes_context'
-import { FaTimes } from 'react-icons/fa'
-import { links } from '../utils/constants'
-import styled from 'styled-components'
+import React from "react";
+import { Link } from "react-router-dom";
+import { useMemesContext } from "../context/memes_context";
+import { FaTimes } from "react-icons/fa";
+import { links } from "../utils/constants";
+import styled from "styled-components";
 import { useUserContext } from "../context/user_context";
-
 
 const Sidebar = () => {
   const { myUser, handleLogout } = useUserContext();
   const { isSidebarOpen, closeSidebar } = useMemesContext();
-  return <SidebarContainer>
-    <aside className={`${isSidebarOpen ? 'sidebar show-sidebar' : 'sidebar'}`}>
-      <div className='sidebar-header'>
-        <button className='close-btn' type='button' onClick={closeSidebar}>
-          <FaTimes />
-        </button>
-      </div>
-      <ul className="links">
-        {links.map(({ id, text, url }) => {
-          return (
-            <li key={id}>
-              <Link to={url} onClick={closeSidebar}>{text}</Link>
-            </li>
-          )
-        })}
-        <li className="nav-right">
-          {myUser ? (<>
-            <button type="button" className='btn' onClick={() => handleLogout()}>
-              Logout</button></>
-          ) : (
-            <Link to='/login' onClick={closeSidebar}><button type="button" className='btn'>
-              Login</button>
-            </Link>
-          )}</li>
-      </ul>
-    </aside>
-  </SidebarContainer>
-}
+  return (
+    <SidebarContainer>
+      <aside
+        className={`${isSidebarOpen ? "sidebar show-sidebar" : "sidebar"}`}
+      >
+        <div className="sidebar-header">
+          <button className="close-btn" type="button" onClick={closeSidebar}>
+            <FaTimes />
+          </button>
+        </div>
+        <ul className="links">
+          {links.map(({ id, text, url }) => {
+            return myUser || text !== "My Memes" ? (
+              <li key={id}>
+                <Link to={url} onClick={closeSidebar}>
+                  {text}
+                </Link>
+              </li>
+            ) : null;
+          })}
+          <li className="nav-right">
+            {myUser ? (
+              <>
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => handleLogout()}
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <Link to="/login" onClick={closeSidebar}>
+                <button type="button" className="btn">
+                  Login
+                </button>
+              </Link>
+            )}
+          </li>
+        </ul>
+      </aside>
+    </SidebarContainer>
+  );
+};
 
 const SidebarContainer = styled.div`
   text-align: center;
@@ -107,6 +122,6 @@ const SidebarContainer = styled.div`
       display: none;
     }
   }
-`
+`;
 
-export default Sidebar
+export default Sidebar;

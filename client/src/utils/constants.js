@@ -9,12 +9,12 @@ export const links = [
   {
     id: 2,
     text: "My Memes",
-    url: "/about",
+    url: "/mymemes",
   },
   {
     id: 3,
     text: "All Memes",
-    url: "/about",
+    url: "/memes",
   },
   {
     id: 4,

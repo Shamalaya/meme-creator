@@ -10,6 +10,7 @@ import {
   Login,
   PrivateRoute,
   Error,
+  Memes,
 } from "./pages";
 import TemplateSelect from "./components/TemplateSelect";
 import MemeForm from "./components/MemeForm";
@@ -22,6 +23,11 @@ function App() {
       <div className="container">
         <Routes>
           <Route exact path="/" element={<Home />} />
+          <Route exact path="/memes" element={<Memes myMemes={false} />} />
+          <Route exact path="/mymemes" element={<PrivateRoute />}>
+            <Route exact path="/mymemes" element={<Memes myMemes={true} />} />
+          </Route>
+
           <Route exact path="/new" element={<PrivateRoute />}>
             <Route exact path="/new" element={<TemplateSelect />} />
           </Route>

@@ -21,11 +21,11 @@ const Navbar = () => {
       <ul className="nav-links">
         {links.map((link) => {
           const { id, text, url } = link;
-          return (
+          return myUser || text !== "My Memes" ? (
             <li key={id}>
               <Link to={url}> {text}</Link>
             </li>
-          );
+          ) : null;
         })}
       </ul>
       <div className="nav-right">
