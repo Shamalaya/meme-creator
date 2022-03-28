@@ -59,6 +59,8 @@ export default MemeCreator;
 
 const Wrapper = styled.div`
   padding-top: 4rem;
+  padding-bottom: 4rem;
+
   h1 {
     margin: 2rem 0;
     text-align: center;
@@ -77,7 +79,7 @@ const Meme = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   align-self: center;
-  margin: 10rem auto;
+  margin: 5rem auto;
 
   .img {
     background-size: cover; /* <-- background size */

@@ -15,7 +15,7 @@ function MemeList() {
 
   return (
     <Wrapper>
-      <h2>All Memes</h2>
+      <h2>ALL MEMES</h2>
       {isAuthenticated && (
         <Link to="/new">
           <button className="btn btn-new">New Meme</button>
@@ -76,6 +76,9 @@ const Wrapper = styled.div`
     justify-content: center;
     flex-direction: column;
     margin: 5rem 20%;
+  }
+  h2 {
+    font-weight: 600;
   }
   svg {
     margin-left: 1rem;

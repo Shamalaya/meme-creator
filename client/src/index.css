@@ -72,7 +72,6 @@ body {
   line-height: 1.5;
   font-size: 0.875rem;
   margin: 0 0;
-  background-color: #e7e8e9f3;
 }
 
 
@@ -143,7 +142,6 @@ p {
     margin: 8rem auto;
     background-color: white;
     box-shadow: var(--shadow-dark);
-    border: 1px solid #b3b5b6f3;
     border-radius: 10px;
     min-height: 40rem;
   }
@@ -170,6 +168,8 @@ p {
 
   body {
     font-size: 1rem;
+    background-color: #e7e8e9f3;
+
   }
 
   h1,
