@@ -44,17 +44,17 @@ function MemeList(props) {
           <button className="btn btn-new">New Meme</button>
         </Link>
       )}
-      <div className="memelist">
+      <div className={`memelist ${!myUser ? "memelist-center" : ""}`}>
         {memes
           ? memes.map((m) => {
               return (
-                <p key={m.id} className={"align-items-center"}>
+                <p key={m.id}>
                   <Link
                     to={{ pathname: `/memes/${m.id}` }}
                     style={{ textDecoration: "none" }}
                   >
                     {m.title}
-                    <a className="madeBy"> by {m.user_name}</a>
+                    <a className="made-by"> by {m.user_name}</a>
                   </Link>
 
                   {m.protected ? <AiFillLock /> : ""}
@@ -102,13 +102,16 @@ const Wrapper = styled.div`
     flex-direction: column;
     margin: 5rem 20%;
   }
+  .memelist-center {
+    padding: 0 15%;
+  }
   h2 {
     font-weight: 600;
   }
   svg {
     margin-left: 1rem;
   }
-  .madeBy {
+  .made-by {
     font-size: 0.8rem;
     color: grey;
   }
