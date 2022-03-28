@@ -84,7 +84,9 @@ const MemeForm = ({ copy }) => {
           onChange={formik.handleChange}
           value={formik.values.title}
         />
-        {formik.errors.title ? <div>{formik.errors.title}</div> : null}
+        {formik.errors.title ? (
+          <div className="error-message">{formik.errors.title}</div>
+        ) : null}
 
         {template.textAreas
           .filter((el) => el[0] != null)
@@ -101,7 +103,9 @@ const MemeForm = ({ copy }) => {
               </div>
             );
           })}
-        {formik.errors.text ? <div>{formik.errors.text}</div> : null}
+        {formik.errors.text ? (
+          <div className="error-message">{formik.errors.text}</div>
+        ) : null}
 
         <label htmlFor="font">Font</label>
         <select
@@ -208,6 +212,9 @@ const Wrapper = styled.div`
     align-items: center;
     justify-content: space-between;
     width: 45%;
+  }
+  .error-message {
+    color: red;
   }
 `;
 export default MemeForm;
