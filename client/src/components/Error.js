@@ -14,7 +14,7 @@ const Error = () => {
 export default Error;
 
 const Wrapper = styled.div`
-  margin-top: 5rem;
+  padding-top: 5rem;
   h2 {
     text-align: center;
   }
