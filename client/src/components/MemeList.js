@@ -48,13 +48,13 @@ function MemeList(props) {
         {memes
           ? memes.map((m) => {
               return (
-                <p key={m.id}>
+                <span key={m.id} className="li">
                   <Link
                     to={{ pathname: `/memes/${m.id}` }}
                     style={{ textDecoration: "none" }}
                   >
                     {m.title}
-                    <a className="made-by"> by {m.user_name}</a>
+                    <span className="made-by"> by {m.user_name}</span>
                   </Link>
 
                   {m.protected ? <AiFillLock /> : ""}
@@ -79,7 +79,7 @@ function MemeList(props) {
                   ) : (
                     ""
                   )}
-                </p>
+                </span>
               );
             })
           : ""}
@@ -115,11 +115,11 @@ const Wrapper = styled.div`
     font-size: 0.8rem;
     color: grey;
   }
-  p {
+  .li {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1px 1px 2px 1px;
+    padding: 1rem 1rem;
     border: 2px solid transparent;
 
     &:hover {
