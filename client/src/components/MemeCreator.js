@@ -48,6 +48,7 @@ function MemeCreator() {
           );
         })}
       </Meme>
+      <span className="made-by">by {meme.user_name}</span>
       <button className="btn" onClick={() => navigate(-1)}>
         Back
       </button>
@@ -69,6 +70,11 @@ const Wrapper = styled.div`
     position: fixed;
     top: 85%;
     left: 85%;
+  }
+  .made-by {
+    display: table;
+    margin: 0 auto;
+    color: grey;
   }
 `;
 
