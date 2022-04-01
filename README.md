@@ -40,7 +40,7 @@ npm start
 ```JSON
 [{
     "id": 2,
-    "template_id": "Go for a walk",
+    "template_id": 2,
     "user_id": 1,
     "user_name": "Mario",
     "title": "Titolo",
